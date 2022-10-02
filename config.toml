@@ -1,0 +1,5 @@
+baseURL = 'https://stepniakadam.github.io/'
+languageCode = 'en-us'
+title = 'Programming blog'
+
+theme='beautifulhugo'
