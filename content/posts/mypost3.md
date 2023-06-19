@@ -112,9 +112,95 @@ When the program is linked then definition is provided and symbol is no longer u
 ```
 
 
+### Why symbols are needed for linkage?
+
+Before linkage there is group of obj files containing 'references' to other objects (Object A may call function defined in Object B, refer to a variable, ect). When code is compiled to assembly 
+
+#### Example:
+`main.cpp:`
+
+```cpp
+void foo();
+
+int main() {
+   foo();
+   return 0;
+}
+
+```
+
+`Foo.cpp:`
+
+```cpp
+void foo(void) {
+    static int i = 0;
+    i++;
+}
+```
+
+Each file is compiled into a relocatable object file. Main function (from translation unit main.o) calls function `foo()` that is defined in other translation unit (Foo.o). When we look at dissassembly of each object the we could see that call to function `foo()` does not refer to definition in `Foo.o`. Address of the function definition is unknown at compilation time of `Main.o`. Starting from address 0x05 there is address of the function `foo()` 0x00000000. 
+
+```diff
+0000000000000000 <main>:
+   0:   55                      push   %rbp
+   1:   48 89 e5                mov    %rsp,%rbp
+   4:   e8 00 00 00 00          call   9 <main+0x9>
+   9:   b8 00 00 00 00          mov    $0x0,%eax
+   e:   5d                      pop    %rbp
+   f:   c3                      ret
+```
+
+At this point compiler produces entry in symbol table describing undefined reference by symbol name, type and offset from beggining of the section:
+
+```asm
+RELOCATION RECORDS FOR [.text]:
+OFFSET           TYPE              VALUE 
+0000000000000005 R_X86_64_PLT32    _Z3foov-0x0000000000000004
+```
+
+As it starts 5 bytes from the beggining of section text then offset equals 0x05. Undefined symbol will be found by linker in next stage in Foo.o containing full defintion of the function:
+
+```diff
+0000000000000000 <_Z3foov>:
+   0:   55                      push   %rbp
+   1:   48 89 e5                mov    %rsp,%rbp
+   4:   8b 05 00 00 00 00       mov    0x0(%rip),%eax        # a <_Z3foov+0xa>
+   a:   83 c0 01                add    $0x1,%eax
+   d:   89 05 00 00 00 00       mov    %eax,0x0(%rip)        # 13 <_Z3foov+0x13>
+  13:   90                      nop
+  14:   5d                      pop    %rbp
+  15:   c3                      ret
+```
+
+While combining sections together linker will update addresses to their final values (both intruction addresses and reference values). These will correspond to memory where program will be actuall placed in memory after loading. 
+Going back to our example: when binary is linked then call to `foo()` references to relative address `0x07` containing defintion of the function. `.text` sections of 2 different translation units were merged together and their addresses where updated accordingly.
 
 
+```diff
+0000000000401166 <main>:                                                                            
+  401166:       55                      push   %rbp                                                 
+  401167:       48 89 e5                mov    %rsp,%rbp                                            
+  40116a:       e8 07 00 00 00          call   401176 <_Z3foov>                                     
+  40116f:       b8 00 00 00 00          mov    $0x0,%eax                                            
+  401174:       5d                      pop    %rbp                                                 
+  401175:       c3                      ret                                                         
+                                                                                                    
+0000000000401176 <_Z3foov>:                                                                         
+  401176:       55                      push   %rbp                         
+  401177:       48 89 e5                mov    %rsp,%rbp                                      
+  40117a:       48 8d 05 8f 0e 00 00    lea    0xe8f(%rip),%rax 
+  401181:       48 89 c6                mov    %rax,%rsi                                            
+  401184:       48 8b 05 65 2e 00 00    mov    0x2e65(%rip),%rax                                    
+  40118b:       48 89 c7                mov    %rax,%rdi                                            
+  40118e:       e8 dd fe ff ff          call   
+  401193:       48 8b 15 5e 2e 00 00    mov    0x2e5e(%rip),%rdx 
+```
 
+### Shared libraries
+
+If multiple executables are linked against the same static library then copy of the code is present in each of file. It increases space used by executables by the system, but also increases memory memory consuption of loaded programs. 
+
+Shared libraries address these disadvantages by performing linkage at runtime of the program. Library is loaded into memory and shared among many executables. When executable references symbol defined in such libary the address is unknown until loader does it's job. 
 
 
 
