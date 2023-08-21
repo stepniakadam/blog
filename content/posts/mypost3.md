@@ -1,7 +1,7 @@
 ---
 title: "What are symbols and why they are needed?"
 date: 2022-11-16T18:38:01+01:00
-draft: true
+draft: false
 ---
 
 
