@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Programming blog</title>
+    <link>https://stepniakadam.github.io/posts/</link>
+    <description>Recent content in Posts on Programming blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Nov 2022 18:38:01 +0100</lastBuildDate><atom:link href="https://stepniakadam.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What are symbols and why they are needed?</title>
+      <link>https://stepniakadam.github.io/posts/mypost3/</link>
+      <pubDate>Wed, 16 Nov 2022 18:38:01 +0100</pubDate>
+      
+      <guid>https://stepniakadam.github.io/posts/mypost3/</guid>
+      <description>&lt;p&gt;In order to fully undestand usage symbols you will need to undestand basics of C++ compilation. This article will explain what are symbols in context of compilation by walking you step by step through compilation phases.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Compilation - programmer perspective</title>
+      <link>https://stepniakadam.github.io/posts/mypost/</link>
+      <pubDate>Sun, 02 Oct 2022 18:13:39 +0200</pubDate>
+      
+      <guid>https://stepniakadam.github.io/posts/mypost/</guid>
+      <description>Maintaining consistent and well organized physical code structure is challanging and underrestimated part of C++ systems development/maintance. Inproper management of interfaces and depenenies will pose maintainablitity and productivity challanges over time. The article aims to summarize simple solutions and attempts to define enforcement rules for best practices.
+Case study Let&amp;rsquo;s assume we are are about to develop small library consumed by many components of the system. Library will communicate with database containing workers entries.</description>
+    </item>
+    
+  </channel>
+</rss>
