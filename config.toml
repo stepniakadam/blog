@@ -2,4 +2,6 @@ baseURL = 'https://stepniakadam.github.io/'
 languageCode = 'en-us'
 title = 'Programming blog'
 
-theme='beautifulhugo'
+[module]
+  [[module.imports]]
+    path = "github.com/nanxiaobei/hugo-paper"
