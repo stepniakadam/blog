@@ -16,9 +16,15 @@ params:
    repo: 'stepniakadam/blog'
    issueTerm: 'Comment'
    label: 'Vssue'
-  colorScheme:
+ colorScheme:
    toggle: false
    default: dark
+ sidebar:
+    subtitle: Codicis similis est humor. Cum id explices, malum est.
+    avatar:
+     enabled: true
+     local: true
+     src: /img/avatar.png
 module:
   imports:
     path: "github.com/CaiJimmy/hugo-theme-stack/v3"
