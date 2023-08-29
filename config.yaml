@@ -1,0 +1,24 @@
+baseUR: 'https://stepniakadam.github.io/'
+languageCode: 'en-us'
+title: 'Notebook'
+
+menu:
+    main: []
+    
+params:
+ mainSections:
+  - posts
+ comments:
+  enabled: true
+  provider: 'utterances'
+  
+  utterances:
+   repo: 'stepniakadam/blog'
+   issueTerm: 'Comment'
+   label: 'Vssue'
+  colorScheme:
+   toggle: false
+   default: dark
+module:
+  imports:
+    path: "github.com/CaiJimmy/hugo-theme-stack/v3"

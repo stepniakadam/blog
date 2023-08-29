@@ -1,6 +1,6 @@
 ---
-title: "Compilation - programmer perspective"
-date: 2022-10-02T18:13:39+02:00
+date: "2022-10-02T18:13:39+02:00"
+title: Compilation - programmer perspective
 ---
 
 Maintaining consistent and well organized physical code structure is challanging and underrestimated part of C++ systems development/maintance. Inproper management of interfaces and depenenies will pose maintainablitity and productivity challanges over time. The article aims to summarize simple solutions and attempts to define enforcement rules for best practices.

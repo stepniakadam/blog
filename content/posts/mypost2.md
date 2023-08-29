@@ -1,7 +1,7 @@
 ---
-title: "Modules - solution for compilation challanges"
-date: 2022-11-02T18:43:19+01:00
+date: "2022-11-02T18:43:19+01:00"
 draft: true
+title: Modules - solution for compilation challanges
 ---
 
 As described in previous post C++ compilation suffers from many challanges and requres from developer to understand compilation and linking in order to maintain well structured code.  
