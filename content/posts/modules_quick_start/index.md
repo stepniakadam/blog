@@ -41,7 +41,44 @@ translation units that import it.". It basically eliminates possibility of sneak
 
 ![Modules](modulesDefines.svg)
 
+### Templates
 
+Templates in standard inclusion model by default result with duplication of definitions across translation units. Every time a file template defined in an include file is copy-pasted into a translation unit following chunk of code is copy-pasted into resulting object file. Modules does not change that behaviour but give more clear semantic way of expressing implicit instantiation of a template. 
+
+For C++11 the only way to avoid copy-pasting template code into multiple translation unit was to implicitly defined then in one translation unit and extern that definition in header file:
+
+```c++
+template<class Type>
+void execute() {}
+
+extern template void execute<int>();
+```
+
+then the template is explicitly instantiate in corresponding cpp file:
+```c++
+template void execute<int>();
+```
+
+it results with having a translation unit with assembly code that other translation units can refer to. The reference is resolved during the linkage.
+
+![Modules](templates.svg)
+
+Executor.hpp defines template body and provides a symbol for a specialised version of the template. Corresponding cpp file contains specialization definition and as a result translation unit will contain assembly code for `execute<int>()` function. If any other translation unit refer to this version of template it will not contain its own version of assembly code because inclusion of executor.hpp file will tell compiler that this symbol is declared here and defined somewhere else (extern). Reference to the symbol will be updated during linkage.
+
+Modules provide similar functionality, but in my opinion with much nicer syntax:
+
+```c++
+export {
+    template<class Type>
+    void execute() {}
+
+    template void execute<int>();
+}
+```
+
+The syntax above provides a way to tell other modules what is available to them:
+1) There is a template that can be specialised in any importing translation unit. In such case importing unit will have its own copy of assembly code.
+2) There is exported function `execute<int>()` that is defined in module unit and resulting translation unit. Importing translation units will not have their own copy of assembly code.
 
 ### Reachability vs visibility
 
