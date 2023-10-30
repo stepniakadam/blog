@@ -1,7 +1,7 @@
 ---
 date: "2023-09-14T18:43:19+01:00"
-draft: true
-title: Modules - solution for compilation challenges
+draft: false
+title: Modules - overview
 ---
 
 Compilation of a large C++ project can be terribly slow when the project is not structured correctly - structured in a way in fact mimicking modules. Unfortunately this requires deep understanding of linkage and compilation process. These are not most popular and essential parts of the language and as a result are quite often ignored and forgotten. Consequently, projects have tendencies to diverge from optimal structure in terms of compilation speed. The default and the easiest option should be the most efficient, but it's opposite. 
